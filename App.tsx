@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView, FlatList, View, Text, Image } from 'react-nat
 import { Movies } from './Models/Movie';
 import { MovieCard } from './Components/MovieCard';
 import { MOVIES_API_BASE_URL, MOVIES_API_KEY } from "@env"
+import { theme } from './theme';
 
 const apiLanguage = 'es'
 const URL = `${MOVIES_API_BASE_URL}/now_playing?api_key=${MOVIES_API_KEY}&language=${apiLanguage}S&page=1`;
@@ -43,6 +44,6 @@ export const App: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#100e2a',
+    backgroundColor: theme.darkMoon,
   }
 });
