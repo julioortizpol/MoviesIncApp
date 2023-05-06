@@ -4,6 +4,7 @@ import { Movies } from './Models/Movie';
 import { MovieCard } from './Components/MovieCard';
 import { MOVIES_API_BASE_URL, MOVIES_API_KEY } from "@env"
 import { theme } from './theme';
+import { sortMoviesByTitle } from './utils';
 
 const apiLanguage = 'es'
 const URL = `${MOVIES_API_BASE_URL}/now_playing?api_key=${MOVIES_API_KEY}&language=${apiLanguage}S&page=1`;
@@ -15,7 +16,8 @@ export const App: React.FC = () => {
     const response = await fetch(URL);
     if (response.ok) {
       const movies = await response.json();
-      setMovies(movies.results);
+      const orderedMovies = sortMoviesByTitle(movies.results)
+      setMovies(orderedMovies);
     }
   }, []);
   
