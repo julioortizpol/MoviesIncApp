@@ -1,7 +1,7 @@
-import { Movies } from "./Models/Movie";
+import { Movies } from "./types/Movie";
 import { es } from 'date-fns/locale'
-import format from 'date-fns/format';
-
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 
 export const sortMoviesByTitle = (movies: Movies): Movies  => {
   const newMovies = [...movies]
@@ -23,6 +23,5 @@ export const sortMoviesByTitle = (movies: Movies): Movies  => {
 }
 
 export const formatDate = (date: string): String => {
-  const mutateDate = (typeof date === 'string') ? date.replace(/-/g, '/') : date
-  return format(new Date(mutateDate), "dd MMM, yyyy", { locale: es });
+  return format(parseISO(date), "dd MMM, yyyy", { locale: es });
 }

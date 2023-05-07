@@ -1,6 +1,6 @@
 
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { Movie } from '../Models/Movie';
+import { Movie } from '../types/Movie';
 import { theme } from '../theme';
 import { formatDate } from '../utils';
 
@@ -8,15 +8,14 @@ import { formatDate } from '../utils';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'
 
 
-export const MovieCard: React.FC<Movie>  = ({title, release_date, vote_average, poster_path}: Movie) => {
-
+export const MovieCard: React.FC<Movie>  = ({title, releaseDate, voteAverage, posterPath}: Movie) => {
     return (
     <View style={styles.movieCard}>
-        <Image source={{ uri: `${IMAGE_BASE_URL}${poster_path}` }} style={{ height: 300 }} resizeMode='contain'/>
+        <Image source={{ uri: `${IMAGE_BASE_URL}${posterPath}` }} style={{ height: 300 }} resizeMode='contain'/>
         <View>
             <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subTitle}>Fecha de estreno: {formatDate(release_date)}</Text>
-            <Text style={styles.subTitle}>Puntuacion: {vote_average}/10</Text>
+            <Text style={styles.subTitle}>Fecha de estreno: {((formatDate(releaseDate)))}</Text>
+            <Text style={styles.subTitle}>Puntuacion: {voteAverage}/10</Text>
         </View>
       </View>
     )
