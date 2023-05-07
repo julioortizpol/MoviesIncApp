@@ -3,8 +3,8 @@
  */
 
 // Note: test renderer must be required after react-native.
-import { formatDate, sortMoviesByTitle } from '../utils';
-import { Movies } from '../types/Movie';
+import { formatDate, sortMoviesByTitle } from '../src/utils';
+import { Movies } from '../src/types/Movie';
 
 
 describe('formatDate', () => {
