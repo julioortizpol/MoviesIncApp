@@ -17,32 +17,33 @@ const MoviesScreen: React.FC<MoviesScreenNavigationProp> = ({ navigation }) => {
       const orderedMovies = sortMoviesByTitle(movies)
       setMovies(orderedMovies);
     })
-    .catch((err) => {
-      if (err instanceof Error) {
-        setErrors(err.message);
-    } else {
-      setErrors('An unexpected error occurred');
-    }
-    });    
+      .catch((err) => {
+        if (err instanceof Error) {
+          setErrors(err.message);
+        } else {
+          setErrors('An unexpected error occurred');
+        }
+      });
   }, []);
-  
+
   useEffect(() => {
     handleFetchMovies();
   }, []);
 
   return (
     <FlatList
-        style={{flex:1}}
-        data={movies}
-        renderItem={({item}) => <MovieCard 
+      style={{ flex: 1 }}
+      data={movies}
+      renderItem={({ item }) => 
+      <MovieCard
         movie={item}
         onPress={() => {
-          navigation.navigate('MoviesDetails')
+          navigation.navigate('MoviesDetails', { movieId: item.id })
         }}
-        />
-      }
-        keyExtractor={item => item.id.toString()}
       />
+      }
+      keyExtractor={item => item.id.toString()}
+    />
   );
 };
 

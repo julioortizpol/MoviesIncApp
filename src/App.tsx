@@ -9,7 +9,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: theme.darkMoon
+    background: theme.darkMoon,
   },
 };
 const RootStack = createStackNavigator<RootStackParamList>();

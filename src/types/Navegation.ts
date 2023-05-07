@@ -3,7 +3,7 @@ import { Movie } from './Movie';
 
 export type RootStackParamList = {
     MoviesScreen: undefined, // undefined because you aren't passing any params to the home screen
-    MoviesDetails: undefined,
+    MoviesDetails: {movieId: Number},
 };
 
 export type MoviesScreenNavigationProp = NativeStackScreenProps<

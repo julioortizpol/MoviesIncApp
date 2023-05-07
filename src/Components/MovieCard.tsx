@@ -12,38 +12,38 @@ type MovieCardProps = {
   movie: Movie,
   onPress: () => void
 }
-export const MovieCard: React.FC<MovieCardProps>  = ({movie, onPress}) => {
-    const {  title, releaseDate, voteAverage, posterPath } = movie
-    return (
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
+  const { title, releaseDate, voteAverage, posterPath, overview, genres } = movie
+  return (
     <View style={styles.movieCard}>
-        <TouchableOpacity onPress={onPress}>
-        <Image source={{ uri: `${IMAGE_BASE_URL}${posterPath}` }} style={{ height: 300 }} resizeMode='contain'/>
+      <TouchableOpacity onPress={onPress}>
+        <Image source={{ uri: `${IMAGE_BASE_URL}${posterPath}` }} style={{ height: 300 }} resizeMode='contain' />
         <View>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subTitle}>Fecha de estreno: {((formatDate(releaseDate)))}</Text>
-            <Text style={styles.subTitle}>Puntuacion: {voteAverage}/10</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subTitle}>Fecha de estreno: {((formatDate(releaseDate)))}</Text>
+          <Text style={styles.subTitle}>Puntuacion: {voteAverage}/10</Text>
         </View>
-        </TouchableOpacity>
-      </View>
-    )
+      </TouchableOpacity>
+    </View>
+  )
 };
 
-  const styles = StyleSheet.create({
-    movieCard: {
-      backgroundColor: theme.clearDarkMoon,
-      flex: 1,
-      padding: 20,
-      borderRadius: 10,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-    title: {
-      color: 'white',
-      fontSize: 18,
-    },
-    subTitle: {
-      // color: '#4b4a65',
-      color: 'white',
-      fontSize: 14,
-    },
-  });
+const styles = StyleSheet.create({
+  movieCard: {
+    backgroundColor: theme.clearDarkMoon,
+    flex: 1,
+    padding: 20,
+    borderRadius: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    color: 'white',
+    fontSize: 18,
+  },
+  subTitle: {
+    // color: '#4b4a65',
+    color: 'white',
+    fontSize: 14,
+  },
+});
