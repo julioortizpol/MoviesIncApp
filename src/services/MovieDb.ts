@@ -13,7 +13,7 @@ const moviesdbToMovies = (result: MovieDBResponse) : Movie => (
   )
   const creditsDBToActors = (result: any) : Actor => (
     {
-      id: result.id, 
+      id: result.credit_id, 
       name: result.name, 
       character: result.character, 
       profilePath: result.profilePath,

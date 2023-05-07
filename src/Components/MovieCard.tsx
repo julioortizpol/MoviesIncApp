@@ -2,7 +2,7 @@
 import { StyleSheet, View, Text, Image, GestureResponderEvent } from 'react-native';
 import { Movie } from '../types/Movie';
 import { theme } from '../theme';
-import { formatDate } from '../utils';
+import { formatDate, getImageURL } from '../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
@@ -13,11 +13,11 @@ type MovieCardProps = {
   onPress: () => void
 }
 export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
-  const { title, releaseDate, voteAverage, posterPath, overview, genres } = movie
+  const { title, releaseDate, voteAverage, posterPath } = movie
   return (
     <View style={styles.movieCard}>
       <TouchableOpacity onPress={onPress}>
-        <Image source={{ uri: `${IMAGE_BASE_URL}${posterPath}` }} style={{ height: 300 }} resizeMode='contain' />
+        <Image source={{ uri: getImageURL(posterPath) }} style={{ height: 300 }} resizeMode='contain' />
         <View>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subTitle}>Fecha de estreno: {((formatDate(releaseDate)))}</Text>
