@@ -1,5 +1,6 @@
 import { Actor, GuestSession, Movie, MovieDBResponse, Movies } from "../types/MovieDB";
 import { MOVIES_API_BASE_URL, MOVIES_API_KEY, AUTH_API_BASE_URL} from "@env"
+import { getLocalGuestSession, isSessionIdActive, setGuestSession } from "../utils";
 const apiLanguage = 'es'
 
 const moviesdbToMovies = (result: MovieDBResponse) : Movie => (
@@ -56,8 +57,12 @@ export function fetchMovieDetails(id: Number): Promise<Movie> {
 }
 
 export async function rateMovie(id: Number, rate: number): Promise<{success: boolean}> {
-  const session = await getGuestSession()
-  const URL = `${MOVIES_API_BASE_URL}/${id}/rating?api_key=${MOVIES_API_KEY}&guest_session_id=${session.guestSessionId}`;
+  let sessionData = await getLocalGuestSession()
+  if(!(sessionData?.guestSessionId && isSessionIdActive(sessionData))) {
+    sessionData = await getGuestSession()
+    setGuestSession(sessionData)
+  }
+  const URL = `${MOVIES_API_BASE_URL}/${id}/rating?api_key=${MOVIES_API_KEY}&guest_session_id=${sessionData.guestSessionId}`;
   return fetch(URL, {
       method: 'POST',
       body: JSON.stringify({

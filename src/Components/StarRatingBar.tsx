@@ -33,7 +33,7 @@ const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
         if (err instanceof Error) {
           setErrors(err.message);
         } else {
-          setErrors('An unexpected error occurred');
+          setErrors('A ocurrido un error');
         }
       });
   }, [defaultRating]);
