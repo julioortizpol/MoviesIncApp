@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
-import { Movies } from '../types/Movie';
+import { FlatList } from 'react-native';
+import { Movies } from '../types/MovieDB';
 import { MovieCard } from '../Components/MovieCard';
-import { theme } from '../theme';
 import { sortMoviesByTitle } from '../utils';
 import { fetchMovies } from '../services/MovieDb';
 import { MoviesScreenNavigationProp } from '../types/Navegation';

@@ -1,4 +1,4 @@
-import { Movies } from "./types/Movie";
+import { Movies } from "./types/MovieDB";
 import { es } from 'date-fns/locale'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'

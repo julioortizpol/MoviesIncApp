@@ -34,4 +34,10 @@ export type Actor = {
 	character: String,
 	profilePath: String
 }
+
+export type GuestSession = {
+	guestSessionId: string,
+	expireDate: string
+}
+
 export type Movies = Movie[]

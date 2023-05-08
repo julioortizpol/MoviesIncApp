@@ -1,5 +1,5 @@
-import { Actor, Movie, MovieDBResponse, Movies } from "../types/Movie";
-import { MOVIES_API_BASE_URL, MOVIES_API_KEY } from "@env"
+import { Actor, GuestSession, Movie, MovieDBResponse, Movies } from "../types/MovieDB";
+import { MOVIES_API_BASE_URL, MOVIES_API_KEY, AUTH_API_BASE_URL} from "@env"
 const apiLanguage = 'es'
 
 const moviesdbToMovies = (result: MovieDBResponse) : Movie => (
@@ -52,5 +52,36 @@ export function fetchMovieDetails(id: Number): Promise<Movie> {
           .then(res => res as MovieDBResponse)
           .then(res => {
               return moviesdbToMovieDetails(res)
+          })
+}
+
+export async function rateMovie(id: Number, rate: number): Promise<{success: boolean}> {
+  const session = await getGuestSession()
+  const URL = `${MOVIES_API_BASE_URL}/${id}/rating?api_key=${MOVIES_API_KEY}&guest_session_id=${session.guestSessionId}`;
+  return fetch(URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        value: rate,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }).then(res => res.json())
+    .then(res => {
+      return {success: res.success}
+    })
+         
+}
+
+function getGuestSession(): Promise<GuestSession> {
+  const URL = `${AUTH_API_BASE_URL}/guest_session/new?api_key=${MOVIES_API_KEY}`;
+  return fetch(URL)
+          .then(res => res.json())
+          .then(res => {
+              return {
+                guestSessionId: res.guest_session_id,
+                expireDate: res.expires_at
+              }
           })
 }

@@ -13,7 +13,7 @@ export const MovieGenres: React.FC<MovieGenresProps>  = ({genres}: MovieGenresPr
         <Text style={{ ...styles.subTitle,  }}>Generos:</Text>
         <View style={{flex:1, flexDirection:'row'}}>
       {genres.map((element, index) =>
-        <Text style={theme.defaultText}>
+        <Text style={theme.defaultText} key={index}>
           {element.name}
           {((genres && genres?.length - 1) === index) ? "" : ', '}
         </Text>)}

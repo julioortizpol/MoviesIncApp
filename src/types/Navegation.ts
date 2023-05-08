@@ -1,9 +1,9 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Movie } from './Movie';
+import { Movie } from './MovieDB';
 
 export type RootStackParamList = {
     MoviesScreen: undefined, // undefined because you aren't passing any params to the home screen
-    MoviesDetails: {movieId: Number},
+    MoviesDetails: {movieId: number},
 };
 
 export type MoviesScreenNavigationProp = NativeStackScreenProps<

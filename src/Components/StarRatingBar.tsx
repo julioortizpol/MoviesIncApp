@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { rateMovie } from '../services/MovieDb';
 
 import {
   SafeAreaView,
@@ -7,21 +8,40 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 
-const StarRatingBar: React.FC = () => {
-  const [defaultRating, setDefaultRating] = useState(2);
-  const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5, 6,7,8,9,10]);
 
-  const starImageFilled =
-    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png';
-  const starImageCorner =
-    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
+const ratedAlert = () =>
+Alert.alert('Calificada', 'Pelicula calificada', [
+  {text: 'OK', onPress: () => {}},
+]);
 
-  const CustomRatingBar = () => {
+const maxRating = [1, 2, 3, 4, 5, 6,7,8,9,10]
+
+const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
+
+  const [defaultRating, setDefaultRating] = useState(0);
+  const [errors, setErrors] = useState<String>();
+  // something to show succes message
+
+  const handleRateMovie = useCallback(async () => {
+    rateMovie(movieId, defaultRating).then((rateObject) => {
+      if(rateObject.success) ratedAlert()
+    })
+      .catch((err) => {
+        if (err instanceof Error) {
+          setErrors(err.message);
+        } else {
+          setErrors('An unexpected error occurred');
+        }
+      });
+  }, [defaultRating]);
+
+  const CustomRatingBar = (): JSX.Element => {
     return (
       <View style={styles.customRatingBarStyle}>
-        {maxRating.map((item, key) => {
+        {maxRating.map((item) => {
           return (
             <TouchableOpacity
               activeOpacity={0.7}
@@ -31,8 +51,8 @@ const StarRatingBar: React.FC = () => {
                 style={styles.starImageStyle}
                 source={
                   item <= defaultRating
-                    ? {uri: starImageFilled}
-                    : {uri: starImageCorner}
+                    ? require('../assets/star_filled.png')
+                    : require('../assets/star_corner.png')
                 }
               />
             </TouchableOpacity>
@@ -55,10 +75,9 @@ const StarRatingBar: React.FC = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.buttonStyle}
-          onPress={() => console.log('hi')}>
-          {/* Clicking on button will show the rating as an alert */}
+          onPress={() => handleRateMovie()}>
           <Text style={styles.buttonTextStyle}>
-            Enviar
+            Calificar
           </Text>
         </TouchableOpacity>
       </View>
@@ -72,13 +91,17 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     textAlign: 'center',
+    paddingBottom:10,
   },
   textStyle: {
+    paddingTop: 8,
+    paddingBottom: 8,
     color:'white',
     textAlign: 'center',
     fontSize: 23,
   },
   textStyleSmall: {
+    paddingTop: 10,
     color:'white',
     textAlign: 'center',
     fontSize: 16,
@@ -94,6 +117,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   customRatingBarStyle: {
+    paddingTop: 8,
     justifyContent: 'center',
     flexDirection: 'row',
   },

@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text } from 'react-native';
 import { theme } from '../theme';
 import { fetchMovieDetails } from '../services/MovieDb';
 import { MoviesDetailsScreenNavigationProp } from '../types/Navegation';
-import {  Movie } from '../types/Movie';
+import {  Movie } from '../types/MovieDB';
 import { formatDate, getImageURL } from '../utils';
 import { FlatList } from 'react-native-gesture-handler';
 import { MovieGenres } from '../Components/MovieGenres';
@@ -11,11 +11,10 @@ import { ActorComponent } from '../Components/ActorComponent';
 import StarRatingBar from '../Components/StarRatingBar';
 
 
-const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navigation }) => {
+const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route }) => {
   const [movie, setMovie] = useState<Movie>();
   const [errors, setErrors] = useState<String>();
 
-  console.log(movie)
 
   const handleFetchMovieDetails = useCallback(async () => {
     fetchMovieDetails(route.params.movieId).then((movie) => {
@@ -47,8 +46,9 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
                   <Text style={styles.title}>{movie?.title}</Text>
                   <Text style={styles.textContent}>Fecha de estreno: {((formatDate(movie.releaseDate)))}</Text>
                   <Text style={styles.textContent}>Puntuacion: {movie.voteAverage}/10</Text>
-                  <StarRatingBar />
                   <Text style={{ ...styles.textContent, textAlign: 'justify' }}>{movie.overview}</Text>
+                  <StarRatingBar movieId={route.params.movieId}/>
+
                   {movie.genres && <MovieGenres genres={movie.genres}/>}
                   <Text style={styles.subTitle}>Actores:</Text>
                 </View>

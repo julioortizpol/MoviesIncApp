@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { theme } from './theme';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,10 +19,29 @@ const App: React.FC = () => {
     return (
       <NavigationContainer theme={MyTheme}>
       <RootStack.Navigator>
-      <RootStack.Screen name="MoviesScreen" component={MoviesScreen} />
+      <RootStack.Screen name="MoviesScreen" component={MoviesScreen} 
+      options={{
+        title: 'Movies',
+        headerStyle: {
+          backgroundColor: theme.darkMoon,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}/>
         <RootStack.Screen name="MoviesDetails"
           component={MoviesDetails}
-          //options={({ route }) => ({ title: route.params.paletteName })} 
+          options={{
+            title: 'Movie Details',
+            headerStyle: {
+              backgroundColor: theme.darkMoon,
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
           />
     </RootStack.Navigator>
       </NavigationContainer>

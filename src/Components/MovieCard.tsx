@@ -1,12 +1,10 @@
 
-import { StyleSheet, View, Text, Image, GestureResponderEvent } from 'react-native';
-import { Movie } from '../types/Movie';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Movie } from '../types/MovieDB';
 import { theme } from '../theme';
 import { formatDate, getImageURL } from '../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'
 
 type MovieCardProps = {
   movie: Movie,
