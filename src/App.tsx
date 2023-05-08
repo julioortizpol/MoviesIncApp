@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { RootStackParamList } from './types/Navegation';
 import MoviesScreen from './screens/Movies.screen'
 import MoviesDetails from './screens/MovieDetails.screen'
+import ErrorBoundary from './Components/ErrorBoundary'
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -18,7 +19,8 @@ const App: React.FC = () => {
 
     return (
       <NavigationContainer theme={MyTheme}>
-      <RootStack.Navigator>
+        <ErrorBoundary >
+        <RootStack.Navigator>
       <RootStack.Screen name="MoviesScreen" component={MoviesScreen} 
       options={{
         title: 'Movies',
@@ -44,7 +46,9 @@ const App: React.FC = () => {
           }}
           />
     </RootStack.Navigator>
+        </ErrorBoundary>
       </NavigationContainer>
+
     );
 };
 
