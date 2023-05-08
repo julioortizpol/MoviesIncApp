@@ -40,18 +40,30 @@ export function fetchMovies(): Promise<Movies> {
     const URL = `${MOVIES_API_BASE_URL}/now_playing?api_key=${MOVIES_API_KEY}&language=${apiLanguage}&page=1`;
     return fetch(URL)
             .then(res => res.json())
-            .then(res => res.results as MovieDBResponse[])
+            .then(res => {
+              if(res.results){
+                return res.results as MovieDBResponse[]
+              }else {
+                throw new Error('No se pudo cargar la lista de peliculas');
+              }
+            })
             .then(res => {
                 return res.map(moviesdbToMovies)
             })
 }
 
 export function fetchMovieDetails(id: Number): Promise<Movie> {
-  const URL = `${MOVIES_API_BASE_URL}/${id}?api_key=${MOVIES_API_KEY}&language=${apiLanguage}&append_to_response=credits`;
+  const URL = `${MOVIES_API_BASE_URL}/${id}?api_key=${1}&language=${apiLanguage}&append_to_response=credits`;
   return fetch(URL)
           .then(res => res.json())
-          .then(res => res as MovieDBResponse)
           .then(res => {
+            if(res.ok || res.status){
+              return res as MovieDBResponse
+            }else {
+              throw new Error('No se pudo cargar los detalles de la pelicula');
+            }
+          })
+          .then(res => { 
               return moviesdbToMovieDetails(res)
           })
 }
@@ -74,7 +86,11 @@ export async function rateMovie(id: Number, rate: number): Promise<{success: boo
       },
     }).then(res => res.json())
     .then(res => {
-      return {success: res.success}
+      if(res.ok || res.status){
+        return {success: res.success}
+      }else {
+        throw new Error('No se pudo calificar la pelicula');
+      }
     })
          
 }
@@ -83,6 +99,13 @@ function getGuestSession(): Promise<GuestSession> {
   const URL = `${AUTH_API_BASE_URL}/guest_session/new?api_key=${MOVIES_API_KEY}`;
   return fetch(URL)
           .then(res => res.json())
+          .then(res => {
+            if(res.ok || res.status){
+              return res
+            }else {
+              throw new Error('No se pudo calificar la pelicula');
+            }
+          })
           .then(res => {
               return {
                 guestSessionId: res.guest_session_id,

@@ -9,22 +9,23 @@ import { FlatList } from 'react-native-gesture-handler';
 import { MovieGenres } from '../Components/MovieGenres';
 import { ActorComponent } from '../Components/ActorComponent';
 import StarRatingBar from '../Components/StarRatingBar';
-
+import { useErrors } from '../hooks';
 
 const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route }) => {
-  const [movie, setMovie] = useState<Movie>();
-  const [errors, setErrors] = useState<String>();
-
+  const [movie, setMovie] = useState<Movie | undefined>();
+  const setErrors = useErrors();
 
   const handleFetchMovieDetails = useCallback(async () => {
+    setErrors(undefined)
     fetchMovieDetails(route.params.movieId).then((movie) => {
+      console.log(movie)
       setMovie(movie);
-    })
-      .catch((err) => {
+    }).catch((err) => {
+        console.log(err)
         if (err instanceof Error) {
           setErrors(err.message);
         } else {
-          setErrors('An unexpected error occurred');
+          setErrors('No se pudo cargar los detalles de la pelicula');
         }
       });
   }, []);
@@ -32,7 +33,6 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route }) =>
   useEffect(() => {
     handleFetchMovieDetails();
   }, []);
-
   return (
     <View style={styles.container}>
       {movie &&
@@ -44,7 +44,7 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route }) =>
                 <View>
                   <Image source={{ uri: getImageURL(movie.posterPath)}} style={{ height: 320 }} resizeMode='contain' />
                   <Text style={styles.title}>{movie?.title}</Text>
-                  <Text style={styles.textContent}>Fecha de estreno: {((formatDate(movie.releaseDate)))}</Text>
+                  <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
                   <Text style={styles.textContent}>Puntuacion: {movie.voteAverage}/10</Text>
                   <Text style={{ ...styles.textContent, textAlign: 'justify' }}>{movie.overview}</Text>
                   <StarRatingBar movieId={route.params.movieId}/>

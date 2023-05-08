@@ -27,8 +27,8 @@ export const sortMoviesByTitle = (movies: Movies): Movies  => {
   return newMovies
 }
 
-export const formatDate = (date: string): String => {
-  return format(parseISO(date), "dd MMM, yyyy", { locale: es });
+export const formatDate = (date: string): string => {
+  return (date) ? format(parseISO(date), "dd MMM, yyyy", { locale: es }):'';
 }
 
 export const getImageURL = (path: string): string => {

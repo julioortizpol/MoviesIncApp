@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import { useErrors } from '../hooks';
 
 
 const ratedAlert = () =>
@@ -22,18 +23,19 @@ const maxRating = [1, 2, 3, 4, 5, 6,7,8,9,10]
 const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
 
   const [defaultRating, setDefaultRating] = useState(0);
-  const [errors, setErrors] = useState<String>();
-  // something to show succes message
+  const setErrors = useErrors();
 
   const handleRateMovie = useCallback(async () => {
     rateMovie(movieId, defaultRating).then((rateObject) => {
+      console.log(rateObject)
       if(rateObject.success) ratedAlert()
     })
       .catch((err) => {
+        console.log(err)
         if (err instanceof Error) {
           setErrors(err.message);
         } else {
-          setErrors('A ocurrido un error');
+          setErrors('No se pudo calificar la pelicula');
         }
       });
   }, [defaultRating]);
