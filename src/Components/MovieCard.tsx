@@ -22,7 +22,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress}) => {
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subTitle}>Fecha de estreno: </Text>
           <Text style={styles.subTitle}>{((formatDate(releaseDate)))}</Text>
-          <Text style={styles.scoreText}>{voteAverage}</Text>
+          <Text style={styles.scoreText}>{voteAverage.toFixed(1)}</Text>
           <CustomRatingBar action={() => {}} defaultRating={voteAverage} litleStar/>
           <View style={{marginTop:15}}>
           <FavMovieButton movie={movie} style={styles.buttonStyles}/>
