@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, ActivityIndicator, TouchableOpacity } fr
 import { theme } from '../theme';
 import { fetchMovieDetails } from '../services/MovieDb';
 import { MoviesDetailsScreenNavigationProp } from '../types/Navegation';
-import {  Movie } from '../types/MovieDB';
+import { Movie } from '../types/MovieDB';
 import { formatDate, getImageURL } from '../utils';
 import { FlatList } from 'react-native-gesture-handler';
 import { MovieGenres } from '../Components/MovieGenres';
@@ -18,59 +18,76 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
 
   const handleFetchMovieDetails = useCallback(async () => {
     setErrors(undefined)
+
     fetchMovieDetails(route.params.movieId).then((movie) => {
       setMovie(movie);
     }).catch((err) => {
-        if (err instanceof Error) {
-          setErrors(err.message);
-        } else {
-          setErrors('No se pudo cargar los detalles de la pelicula');
-        }
-      });
+      if (err instanceof Error) {
+        setErrors(err.message);
+      } else {
+        setErrors('No se pudo cargar los detalles de la pelicula');
+      }
+    });
   }, []);
-
-  //   navigation.navigate('MoviesDetails', { movieId: item.id })
 
   useEffect(() => {
     handleFetchMovieDetails();
   }, []);
   return (
     <View style={styles.container}>
-      {movie ? 
-      <FlatList
-      style={{paddingHorizontal:10}}
-        ListHeaderComponent={
-          () => {
-            return (
-              <View>
-                <Image source={{ uri: getImageURL(movie.posterPath)}} style={{ height: 320 }} resizeMode='contain' />
-                <Text style={styles.title}>{movie?.title}</Text>
-                <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
-                <Text style={styles.textContent}>Puntuacion: {movie.voteAverage}/10</Text>
-                <Text style={{ ...styles.textContent, textAlign: 'justify' }}>{movie.overview}</Text>
+      {movie ?
+        (
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 0.93 }}>
+              <FlatList
+                style={{ paddingHorizontal: 10 }}
+                ListHeaderComponent={
+                  () => {
+                    return (
+                      <View>
+                        <Image source={{ uri: getImageURL(movie.posterPath) }} style={{ height: 320 }} resizeMode='contain' />
+                        <Text style={styles.title}>{movie?.title}</Text>
+                        <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
+                        <Text style={styles.textContent}>Puntuacion: {movie.voteAverage}/10</Text>
+                        <Text style={{ ...styles.textContent, textAlign: 'justify' }}>{movie.overview}</Text>
+
+                        
+                        <StarRatingBar movieId={route.params.movieId} />
+                        {movie.genres && <MovieGenres genres={movie.genres} />}
+                        <Text style={styles.subTitle}>Actores:</Text>
+                      </View>
+                    )
+                  }
+                }
+                keyExtractor={(item) => item.id.toString()}
+                data={movie.actors}
+                renderItem={({ item }) =>
+                  <ActorComponent actor={item} />
+                }
+              />
+            </View>
+            <View style={{ flex: 0.07 }} >
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{flex:1,     width: '50%',}}>
                 <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.buttonStyle}
-                onPress={() => navigation.navigate('RecomendedMovies', { movieId: route.params.movieId })}>
+                  activeOpacity={0.7}
+                  style={styles.buttonStyle}
+                  onPress={() => navigation.navigate('RecomendedMovies', { movieId: route.params.movieId })}>
                   <Text style={styles.buttonTextStyle}>
                     peliculas similares
                   </Text>
                 </TouchableOpacity>
-                <FavMovieButton movie={movie}/>
-                <StarRatingBar movieId={route.params.movieId}/>
-                {movie.genres && <MovieGenres genres={movie.genres}/>}
-                <Text style={styles.subTitle}>Actores:</Text>
+                </View>
+                <View style={{flex:1,     width: '50%',}}>
+                <FavMovieButton movie={movie} />
+                </View>
               </View>
-            )
-          }
-        }
-        keyExtractor={(item) => item.id.toString()}
-        data={movie.actors}
-        renderItem={({ item }) =>
-          <ActorComponent actor={item} />
-        }
-      />  : <ActivityIndicator />
-      }
+            </View>
+          </View>
+        )
+        : <ActivityIndicator />}
+
+
     </View>
   );
 };
@@ -78,8 +95,7 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    marginVertical: 8,
-    marginHorizontal: 8,
+    flex: 1,
     backgroundColor: theme.clearDarkMoon
   },
   title: {
@@ -98,9 +114,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   buttonStyle: {
+    height: '100%',
     justifyContent: 'center',
-    flexDirection: 'row',
-    ...theme.buttonStyle
+    backgroundColor: '#5f4c6c',
   },
   buttonTextStyle: {
     color: 'white',
