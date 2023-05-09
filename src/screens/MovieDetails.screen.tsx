@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { theme } from '../theme';
 import { fetchMovieDetails } from '../services/MovieDb';
-import { MoviesDetailsScreenNavigationProp } from '../types/Navegation';
+import { MoviesDetailsScreenNavigationProp } from '../types/Navigation';
 import type { Movie } from '../types/MovieDB';
 import { formatDate, getImageURL } from '../utils';
 import { FlatList } from 'react-native-gesture-handler';

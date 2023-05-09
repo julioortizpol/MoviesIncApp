@@ -4,7 +4,7 @@ import type { Movies } from '../types/MovieDB';
 import { MovieCard } from '../Components/MovieCard';
 import { sortMoviesByTitle } from '../utils';
 import { fetchMovies } from '../services/MovieDb';
-import type { MoviesScreenNavigationProp } from '../types/Navegation';
+import type { MoviesScreenNavigationProp } from '../types/Navigation';
 import { useErrors } from '../hooks';
 import { MovieListSubHeader } from '../Components/MovieListSubHeader';
 import { useSelector } from 'react-redux';
