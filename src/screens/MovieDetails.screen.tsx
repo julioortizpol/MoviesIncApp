@@ -45,7 +45,7 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
                   () => {
                     return (
                       <View>
-                        <Image source={{ uri: getImageURL(movie.posterPath) }} style={{ height: 320 }} resizeMode='contain' />
+                        <Image source={{ uri: getImageURL(movie.posterPath) }} style={{ height: 320, marginTop: 8 }} resizeMode='contain' />
                         <Text style={styles.title}>{movie?.title}</Text>
                         <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
                         <Text style={styles.textContent}>Puntuacion: {movie.voteAverage.toFixed(1)} / 10</Text>

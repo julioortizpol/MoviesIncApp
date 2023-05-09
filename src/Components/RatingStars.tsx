@@ -26,8 +26,8 @@ const RatingStars: React.FC<{movieId: number}> = ({movieId}) => {
   const [defaultRating, setDefaultRating] = useState(0);
   const setErrors = useErrors();
 
-  const handleRateMovie = useCallback(async () => {
-    rateMovie(movieId, defaultRating).then((rateObject) => {
+  const handleRateMovie = useCallback(async (item: number) => {
+    rateMovie(movieId, item).then((rateObject) => {
       if(rateObject.success) ratedAlert()
     })
       .catch((err) => {
@@ -37,28 +37,23 @@ const RatingStars: React.FC<{movieId: number}> = ({movieId}) => {
           setErrors('No se pudo calificar la pelicula');
         }
       });
-  }, [defaultRating]);
+  }, []);
 
 
-
+//
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.textStyleSmall}>
           Califica la pelicula
         </Text>
-        <CustomRatingBar action={(item: number) => setDefaultRating(item)} defaultRating={defaultRating}/>
+        <CustomRatingBar action={(item: number) => {
+          setDefaultRating(item)
+          handleRateMovie(item)
+        }} defaultRating={defaultRating}/>
         <Text style={styles.textStyle}>
           {defaultRating} / {Math.max.apply(null, maxRating)}
         </Text>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.buttonStyle}
-          onPress={() => handleRateMovie()}>
-          <Text style={styles.buttonTextStyle}>
-            Calificar
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
