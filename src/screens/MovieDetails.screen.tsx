@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, ActivityIndicator, TouchableOpacity } fr
 import { theme } from '../theme';
 import { fetchMovieDetails } from '../services/MovieDb';
 import { MoviesDetailsScreenNavigationProp } from '../types/Navegation';
-import { Movie } from '../types/MovieDB';
+import type { Movie } from '../types/MovieDB';
 import { formatDate, getImageURL } from '../utils';
 import { FlatList } from 'react-native-gesture-handler';
 import { MovieGenres } from '../Components/MovieGenres';

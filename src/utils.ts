@@ -1,4 +1,4 @@
-import { GuestSession, Movies } from "./types/MovieDB";
+import type { GuestSession, Movies } from "./types/MovieDB";
 import { es } from 'date-fns/locale'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'

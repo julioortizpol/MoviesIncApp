@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { FlatList, ActivityIndicator } from 'react-native';
-import { Movies } from '../types/MovieDB';
+import type { Movies } from '../types/MovieDB';
 import { MovieCard } from '../Components/MovieCard';
 import { sortMoviesByTitle } from '../utils';
 import { fetchRecomendedMovies } from '../services/MovieDb';
-import { RecomendedMoviesScreenNavigationProp } from '../types/Navegation';
+import type { RecomendedMoviesScreenNavigationProp } from '../types/Navegation';
 import { useErrors } from '../hooks';
 
 const RecomendedMovies: React.FC<RecomendedMoviesScreenNavigationProp> = ({ route, navigation }) => {

@@ -1,4 +1,4 @@
-import { Actor, GuestSession, Movie, MovieDBResponse, Movies } from "../types/MovieDB";
+import type { Actor, GuestSession, Movie, MovieDBResponse, Movies } from "../types/MovieDB";
 import { MOVIES_API_BASE_URL, MOVIES_API_KEY, AUTH_API_BASE_URL} from "@env"
 import { getLocalGuestSession, isSessionIdActive, setGuestSession } from "../utils";
 const apiLanguage = 'es'
@@ -20,6 +20,7 @@ const moviesdbToMovies = (result: MovieDBResponse) : Movie => (
       profilePath: result.profilePath,
     }
   )
+
   const moviesdbToMovieDetails = (result: MovieDBResponse) : Movie => (
     {
       id: result.id, 

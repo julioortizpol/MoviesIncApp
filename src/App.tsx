@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { theme } from './theme';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack';
-import { RootStackParamList } from './types/Navegation';
+import type { RootStackParamList } from './types/Navegation';
 import MoviesScreen from './screens/Movies.screen'
 import MoviesDetails from './screens/MovieDetails.screen'
 import ErrorBoundary from './Components/ErrorBoundary'

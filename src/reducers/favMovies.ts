@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Movie, Movies } from '../types/MovieDB'
+import type { Movie, Movies } from '../types/MovieDB'
 
 export type FavMoviesState = {
   favMovies: Movies

@@ -1,7 +1,7 @@
 
 import { View, Text } from 'react-native';
 import { theme } from '../theme';
-import { Actor } from '../types/MovieDB';
+import type { Actor } from '../types/MovieDB';
 
 type MovieGenresProps = {
   actor: Actor

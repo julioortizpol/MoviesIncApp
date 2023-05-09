@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { FlatList, ActivityIndicator, View, Text, StyleSheet, Alert } from 'react-native';
-import { Movies } from '../types/MovieDB';
+import type { Movies } from '../types/MovieDB';
 import { MovieCard } from '../Components/MovieCard';
 import { sortMoviesByTitle } from '../utils';
 import { fetchMovies } from '../services/MovieDb';
-import { MoviesScreenNavigationProp } from '../types/Navegation';
+import type { MoviesScreenNavigationProp } from '../types/Navegation';
 import { useErrors } from '../hooks';
 import { MovieListSubHeader } from '../Components/MovieListSubHeader';
 import { useSelector } from 'react-redux';

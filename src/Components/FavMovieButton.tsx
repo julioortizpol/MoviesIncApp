@@ -1,10 +1,9 @@
-import { StyleSheet, View, Text, Image, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, Text, Image, StyleProp, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '../store'
-import { theme } from '../theme';
 import { addFavMovie, deleteFavMovie } from '../reducers/favMovies'
-import { Movie } from '../types/MovieDB';
+import type { Movie } from '../types/MovieDB';
 import { useEffect, useState } from 'react';
 
 type FavMovieButtonProps = {

@@ -1,6 +1,6 @@
 
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { Movie } from '../types/MovieDB';
+import type { Movie } from '../types/MovieDB';
 import { theme } from '../theme';
 import { formatDate, getImageURL } from '../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
