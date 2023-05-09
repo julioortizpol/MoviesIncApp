@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useErrors } from '../hooks';
 import { CustomRatingBar } from './StarBar';
+import { theme } from '../theme';
 
 
 const ratedAlert = () =>
@@ -87,8 +88,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     justifyContent: 'center',
     flexDirection: 'row',
-    padding: 15,
-    backgroundColor: '#2329dc',
+    ...theme.buttonStyle
   },
   buttonTextStyle: {
     color: '#fff',

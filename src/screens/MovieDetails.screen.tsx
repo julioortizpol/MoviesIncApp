@@ -56,7 +56,7 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
                     peliculas similares
                   </Text>
                 </TouchableOpacity>
-                <FavMovieButton />
+                <FavMovieButton movie={movie}/>
                 <StarRatingBar movieId={route.params.movieId}/>
                 {movie.genres && <MovieGenres genres={movie.genres}/>}
                 <Text style={styles.subTitle}>Actores:</Text>
@@ -78,16 +78,13 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    padding: 8,
     marginVertical: 8,
     marginHorizontal: 8,
     backgroundColor: theme.clearDarkMoon
   },
   title: {
+    ...theme.title,
     textAlign: 'center',
-    color: 'white',
-    fontSize: 18,
-    marginBottom: 10,
     marginTop: 10
   },
   textContent: {
@@ -103,12 +100,10 @@ const styles = StyleSheet.create({
   buttonStyle: {
     justifyContent: 'center',
     flexDirection: 'row',
-    borderRadius: 10,
-    padding: 10,
-    backgroundColor: '#2329dc',
+    ...theme.buttonStyle
   },
   buttonTextStyle: {
-    color: '#fff',
+    color: 'white',
     textAlign: 'center',
   },
 });

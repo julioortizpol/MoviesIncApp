@@ -24,7 +24,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress}) => {
           <Text style={styles.subTitle}>{((formatDate(releaseDate)))}</Text>
           <Text style={styles.scoreText}>{voteAverage}</Text>
           <CustomRatingBar action={() => {}} defaultRating={voteAverage} litleStar/>
-          <FavMovieButton />
+          <FavMovieButton movie={movie}/>
         </View>
     </View>
     </TouchableOpacity>
@@ -50,10 +50,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   title: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 24,
-    paddingBottom: 10
+  ...theme.title,
+  fontWeight: 'bold',
   },
   subTitle: {
     color: 'white',
