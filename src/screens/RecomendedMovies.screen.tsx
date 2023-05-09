@@ -3,17 +3,17 @@ import { FlatList, ActivityIndicator } from 'react-native';
 import { Movies } from '../types/MovieDB';
 import { MovieCard } from '../Components/MovieCard';
 import { sortMoviesByTitle } from '../utils';
-import { fetchMovies } from '../services/MovieDb';
-import { MoviesScreenNavigationProp } from '../types/Navegation';
+import { fetchRecomendedMovies } from '../services/MovieDb';
+import { RecomendedMoviesScreenNavigationProp } from '../types/Navegation';
 import { useErrors } from '../hooks';
 
-const MoviesScreen: React.FC<MoviesScreenNavigationProp> = ({ navigation }) => {
+const RecomendedMovies: React.FC<RecomendedMoviesScreenNavigationProp> = ({ route, navigation }) => {
   const [movies, setMovies] = useState<Movies>();
   const setErrors = useErrors();
 
-  const handleFetchMovies = useCallback(async () => {
+  const handleFetchRecomendedMovies = useCallback(async () => {
     setErrors(undefined)
-    fetchMovies().then((movies) => {
+    fetchRecomendedMovies(route.params.movieId).then((movies) => {
       const orderedMovies = sortMoviesByTitle(movies)
       setMovies(orderedMovies);
     })
@@ -27,7 +27,7 @@ const MoviesScreen: React.FC<MoviesScreenNavigationProp> = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    handleFetchMovies();
+    handleFetchRecomendedMovies();
   }, []);
 
   return (
@@ -37,9 +37,6 @@ const MoviesScreen: React.FC<MoviesScreenNavigationProp> = ({ navigation }) => {
       renderItem={({ item }) => 
       <MovieCard
         movie={item}
-        onPress={() => {
-          navigation.navigate('MoviesDetails', { movieId: item.id })
-        }}
       />
       }
       keyExtractor={item => item.id.toString()}
@@ -49,4 +46,4 @@ const MoviesScreen: React.FC<MoviesScreenNavigationProp> = ({ navigation }) => {
   );
 };
 
-export default MoviesScreen
+export default RecomendedMovies

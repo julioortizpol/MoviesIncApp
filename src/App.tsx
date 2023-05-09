@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { theme } from './theme';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack';
 import { RootStackParamList } from './types/Navegation';
 import MoviesScreen from './screens/Movies.screen'
 import MoviesDetails from './screens/MovieDetails.screen'
 import ErrorBoundary from './Components/ErrorBoundary'
+import RecomendedMovies from './screens/RecomendedMovies.screen';
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -15,6 +16,16 @@ const MyTheme = {
 };
 const RootStack = createStackNavigator<RootStackParamList>();
 
+const headerStyles: StackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: theme.darkMoon,
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+}
+
 const App: React.FC = () => {  
 
     return (
@@ -23,26 +34,20 @@ const App: React.FC = () => {
         <RootStack.Navigator>
       <RootStack.Screen name="MoviesScreen" component={MoviesScreen} 
       options={{
-        title: 'Movies',
-        headerStyle: {
-          backgroundColor: theme.darkMoon,
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        title: 'Pelicuas',
+        ...headerStyles,
+      }}/>
+       <RootStack.Screen name="RecomendedMovies" component={RecomendedMovies} 
+      options={{
+        ...headerStyles,
+        title: 'Peliculas recomendadas',
       }}/>
         <RootStack.Screen name="MoviesDetails"
           component={MoviesDetails}
           options={{
-            title: 'Movie Details',
-            headerStyle: {
-              backgroundColor: theme.darkMoon,
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
+            ...headerStyles,
+            title: 'Detalle de pelicula',
+            
           }}
           />
     </RootStack.Navigator>

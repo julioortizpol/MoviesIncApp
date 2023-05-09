@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { rateMovie } from '../services/MovieDb';
 
 import {
@@ -6,11 +6,11 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
   Alert
 } from 'react-native';
 import { useErrors } from '../hooks';
+import { CustomRatingBar } from './StarBar';
 
 
 const ratedAlert = () =>
@@ -20,18 +20,16 @@ Alert.alert('Calificada', 'Pelicula calificada', [
 
 const maxRating = [1, 2, 3, 4, 5, 6,7,8,9,10]
 
-const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
+const RatingStars: React.FC<{movieId: number}> = ({movieId}) => {
 
   const [defaultRating, setDefaultRating] = useState(0);
   const setErrors = useErrors();
 
   const handleRateMovie = useCallback(async () => {
     rateMovie(movieId, defaultRating).then((rateObject) => {
-      console.log(rateObject)
       if(rateObject.success) ratedAlert()
     })
       .catch((err) => {
-        console.log(err)
         if (err instanceof Error) {
           setErrors(err.message);
         } else {
@@ -40,29 +38,7 @@ const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
       });
   }, [defaultRating]);
 
-  const CustomRatingBar = (): JSX.Element => {
-    return (
-      <View style={styles.customRatingBarStyle}>
-        {maxRating.map((item) => {
-          return (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              key={item}
-              onPress={() => setDefaultRating(item)}>
-              <Image
-                style={styles.starImageStyle}
-                source={
-                  item <= defaultRating
-                    ? require('../assets/star_filled.png')
-                    : require('../assets/star_corner.png')
-                }
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,7 +46,7 @@ const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
         <Text style={styles.textStyleSmall}>
           Califica la pelicula
         </Text>
-        <CustomRatingBar />
+        <CustomRatingBar action={(item: number) => setDefaultRating(item)} defaultRating={defaultRating}/>
         <Text style={styles.textStyle}>
           {defaultRating} / {Math.max.apply(null, maxRating)}
         </Text>
@@ -87,7 +63,7 @@ const StarRatingBar: React.FC<{movieId: number}> = ({movieId}) => {
   );
 };
 
-export default StarRatingBar;
+export default RatingStars;
 
 const styles = StyleSheet.create({
   container: {
@@ -117,15 +93,5 @@ const styles = StyleSheet.create({
   buttonTextStyle: {
     color: '#fff',
     textAlign: 'center',
-  },
-  customRatingBarStyle: {
-    paddingTop: 8,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  starImageStyle: {
-    width: 25,
-    height: 25,
-    resizeMode: 'cover',
   },
 });

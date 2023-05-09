@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { theme } from '../theme';
 import { fetchMovieDetails } from '../services/MovieDb';
 import { MoviesDetailsScreenNavigationProp } from '../types/Navegation';
@@ -8,20 +8,18 @@ import { formatDate, getImageURL } from '../utils';
 import { FlatList } from 'react-native-gesture-handler';
 import { MovieGenres } from '../Components/MovieGenres';
 import { ActorComponent } from '../Components/ActorComponent';
-import StarRatingBar from '../Components/StarRatingBar';
+import StarRatingBar from '../Components/RatingStars';
 import { useErrors } from '../hooks';
 
-const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route }) => {
+const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navigation }) => {
   const [movie, setMovie] = useState<Movie | undefined>();
   const setErrors = useErrors();
 
   const handleFetchMovieDetails = useCallback(async () => {
     setErrors(undefined)
     fetchMovieDetails(route.params.movieId).then((movie) => {
-      console.log(movie)
       setMovie(movie);
     }).catch((err) => {
-        console.log(err)
         if (err instanceof Error) {
           setErrors(err.message);
         } else {
@@ -30,37 +28,46 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route }) =>
       });
   }, []);
 
+  //   navigation.navigate('MoviesDetails', { movieId: item.id })
+
   useEffect(() => {
     handleFetchMovieDetails();
   }, []);
   return (
     <View style={styles.container}>
-      {movie &&
-        <FlatList
-        style={{paddingHorizontal:10}}
-          ListHeaderComponent={
-            () => {
-              return (
-                <View>
-                  <Image source={{ uri: getImageURL(movie.posterPath)}} style={{ height: 320 }} resizeMode='contain' />
-                  <Text style={styles.title}>{movie?.title}</Text>
-                  <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
-                  <Text style={styles.textContent}>Puntuacion: {movie.voteAverage}/10</Text>
-                  <Text style={{ ...styles.textContent, textAlign: 'justify' }}>{movie.overview}</Text>
-                  <StarRatingBar movieId={route.params.movieId}/>
-
-                  {movie.genres && <MovieGenres genres={movie.genres}/>}
-                  <Text style={styles.subTitle}>Actores:</Text>
-                </View>
-              )
-            }
+      {movie ? 
+      <FlatList
+      style={{paddingHorizontal:10}}
+        ListHeaderComponent={
+          () => {
+            return (
+              <View>
+                <Image source={{ uri: getImageURL(movie.posterPath)}} style={{ height: 320 }} resizeMode='contain' />
+                <Text style={styles.title}>{movie?.title}</Text>
+                <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
+                <Text style={styles.textContent}>Puntuacion: {movie.voteAverage}/10</Text>
+                <Text style={{ ...styles.textContent, textAlign: 'justify' }}>{movie.overview}</Text>
+                <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.buttonStyle}
+                onPress={() => navigation.navigate('RecomendedMovies', { movieId: route.params.movieId })}>
+                  <Text style={styles.buttonTextStyle}>
+                    peliculas similares
+                  </Text>
+                </TouchableOpacity>
+                <StarRatingBar movieId={route.params.movieId}/>
+                {movie.genres && <MovieGenres genres={movie.genres}/>}
+                <Text style={styles.subTitle}>Actores:</Text>
+              </View>
+            )
           }
-          keyExtractor={(item) => item.id.toString()}
-          data={movie.actors}
-          renderItem={({ item }) =>
-            <ActorComponent actor={item} />
-          }
-        />
+        }
+        keyExtractor={(item) => item.id.toString()}
+        data={movie.actors}
+        renderItem={({ item }) =>
+          <ActorComponent actor={item} />
+        }
+      />  : <ActivityIndicator />
       }
     </View>
   );
@@ -89,7 +96,17 @@ const styles = StyleSheet.create({
     ...theme.subTitle,
     fontWeight: 'bold',
     textAlign: 'left',
-  }
+  },
+  buttonStyle: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    padding: 15,
+    backgroundColor: '#2329dc',
+  },
+  buttonTextStyle: {
+    color: '#fff',
+    textAlign: 'center',
+  },
 });
 
 export default MovieDetails

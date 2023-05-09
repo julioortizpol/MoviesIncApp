@@ -4,44 +4,64 @@ import { Movie } from '../types/MovieDB';
 import { theme } from '../theme';
 import { formatDate, getImageURL } from '../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { CustomRatingBar } from './StarBar';
 
 
 type MovieCardProps = {
   movie: Movie,
-  onPress: () => void
+  onPress?: () => void
 }
-export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress}) => {
   const { title, releaseDate, voteAverage, posterPath } = movie
   return (
+    <TouchableOpacity onPress={onPress} disabled={(onPress) ? false:true}>
     <View style={styles.movieCard}>
-      <TouchableOpacity onPress={onPress}>
-        <Image source={{ uri: getImageURL(posterPath) }} style={{ height: 300 }} resizeMode='contain' />
-        <View>
+        <Image source={{ uri: getImageURL(posterPath) }} style={{ width:180, height:300 }}  />
+        <View style={styles.movieDetailsContainer}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subTitle}>Fecha de estreno: {((formatDate(releaseDate)))}</Text>
-          <Text style={styles.subTitle}>Puntuacion: {voteAverage}/10</Text>
+          <Text style={styles.subTitle}>Fecha de estreno: </Text>
+          <Text style={styles.subTitle}>{((formatDate(releaseDate)))}</Text>
+          <Text style={styles.scoreText}>{voteAverage}</Text>
+          <CustomRatingBar action={() => {}} defaultRating={voteAverage} litleStar/>
         </View>
-      </TouchableOpacity>
     </View>
+    </TouchableOpacity>
+
   )
 };
 
 const styles = StyleSheet.create({
   movieCard: {
-    backgroundColor: theme.clearDarkMoon,
     flex: 1,
-    padding: 20,
-    borderRadius: 10,
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    borderRadius: 20,
     marginVertical: 8,
     marginHorizontal: 16,
   },
+  movieDetailsContainer: {
+    backgroundColor: theme.clearDarkMoon,
+    flex:1, 
+    justifyContent:'flex-end', 
+    paddingStart: 10,
+    paddingEnd: 10,
+    paddingBottom: 10
+  },
   title: {
     color: 'white',
-    fontSize: 18,
+    fontWeight: 'bold',
+    fontSize: 24,
+    paddingBottom: 10
   },
   subTitle: {
-    // color: '#4b4a65',
     color: 'white',
     fontSize: 14,
+  },
+  scoreText: {
+    paddingTop: 10,
+    fontWeight: 'bold',
+    paddingEnd: 4,
+    color: 'yellow',
+    fontSize: 18,
   },
 });

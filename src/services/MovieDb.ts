@@ -52,8 +52,24 @@ export function fetchMovies(): Promise<Movies> {
             })
 }
 
-export function fetchMovieDetails(id: Number): Promise<Movie> {
-  const URL = `${MOVIES_API_BASE_URL}/${id}?api_key=${1}&language=${apiLanguage}&append_to_response=credits`;
+export function fetchRecomendedMovies(id:number): Promise<Movies> {
+  const URL = `${MOVIES_API_BASE_URL}/${id}/recommendations?api_key=${MOVIES_API_KEY}&language=${apiLanguage}&page=1`;
+  return fetch(URL)
+          .then(res => res.json())
+          .then(res => {
+            if(res.results){
+              return res.results as MovieDBResponse[]
+            }else {
+              throw new Error('No se pudo cargar la lista de peliculas');
+            }
+          })
+          .then(res => {
+              return res.map(moviesdbToMovies)
+          })
+}
+
+export function fetchMovieDetails(id: number): Promise<Movie> {
+  const URL = `${MOVIES_API_BASE_URL}/${id}?api_key=${MOVIES_API_KEY}&language=${apiLanguage}&append_to_response=credits`;
   return fetch(URL)
           .then(res => res.json())
           .then(res => {
@@ -68,12 +84,13 @@ export function fetchMovieDetails(id: Number): Promise<Movie> {
           })
 }
 
-export async function rateMovie(id: Number, rate: number): Promise<{success: boolean}> {
+export async function rateMovie(id: number, rate: number): Promise<{success: boolean}> {
   let sessionData = await getLocalGuestSession()
   if(!(sessionData?.guestSessionId && isSessionIdActive(sessionData))) {
     sessionData = await getGuestSession()
     setGuestSession(sessionData)
   }
+
   const URL = `${MOVIES_API_BASE_URL}/${id}/rating?api_key=${MOVIES_API_KEY}&guest_session_id=${sessionData.guestSessionId}`;
   return fetch(URL, {
       method: 'POST',
@@ -86,7 +103,7 @@ export async function rateMovie(id: Number, rate: number): Promise<{success: boo
       },
     }).then(res => res.json())
     .then(res => {
-      if(res.ok || res.status){
+      if(res.ok || res.status || res.success){
         return {success: res.success}
       }else {
         throw new Error('No se pudo calificar la pelicula');
@@ -100,7 +117,7 @@ function getGuestSession(): Promise<GuestSession> {
   return fetch(URL)
           .then(res => res.json())
           .then(res => {
-            if(res.ok || res.status){
+            if(res.ok || res.status || res.success){
               return res
             }else {
               throw new Error('No se pudo calificar la pelicula');
