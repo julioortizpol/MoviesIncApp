@@ -7,6 +7,8 @@ import MoviesScreen from './screens/Movies.screen'
 import MoviesDetails from './screens/MovieDetails.screen'
 import ErrorBoundary from './Components/ErrorBoundary'
 import RecomendedMovies from './screens/RecomendedMovies.screen';
+import { store } from './store'
+import { Provider } from 'react-redux'
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -29,6 +31,7 @@ const headerStyles: StackNavigationOptions = {
 const App: React.FC = () => {  
 
     return (
+      <Provider store={store}>
       <NavigationContainer theme={MyTheme}>
         <ErrorBoundary >
         <RootStack.Navigator>
@@ -53,7 +56,7 @@ const App: React.FC = () => {
     </RootStack.Navigator>
         </ErrorBoundary>
       </NavigationContainer>
-
+      </Provider>
     );
 };
 
