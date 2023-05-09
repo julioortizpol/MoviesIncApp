@@ -10,6 +10,7 @@ import { MovieGenres } from '../Components/MovieGenres';
 import { ActorComponent } from '../Components/ActorComponent';
 import StarRatingBar from '../Components/RatingStars';
 import { useErrors } from '../hooks';
+import { FavMovieButton } from '../Components/FavMovieButton';
 
 const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navigation }) => {
   const [movie, setMovie] = useState<Movie | undefined>();
@@ -55,6 +56,7 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
                     peliculas similares
                   </Text>
                 </TouchableOpacity>
+                <FavMovieButton />
                 <StarRatingBar movieId={route.params.movieId}/>
                 {movie.genres && <MovieGenres genres={movie.genres}/>}
                 <Text style={styles.subTitle}>Actores:</Text>
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 8,
     marginHorizontal: 8,
+    backgroundColor: theme.clearDarkMoon
   },
   title: {
     textAlign: 'center',
@@ -100,7 +103,8 @@ const styles = StyleSheet.create({
   buttonStyle: {
     justifyContent: 'center',
     flexDirection: 'row',
-    padding: 15,
+    borderRadius: 10,
+    padding: 10,
     backgroundColor: '#2329dc',
   },
   buttonTextStyle: {

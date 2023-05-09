@@ -5,8 +5,9 @@ import { theme } from '../theme';
 import { formatDate, getImageURL } from '../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CustomRatingBar } from './StarBar';
+import { FavMovieButton } from './FavMovieButton';
 
-
+// require('../assets/heart_filled.png')
 type MovieCardProps = {
   movie: Movie,
   onPress?: () => void
@@ -23,6 +24,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress}) => {
           <Text style={styles.subTitle}>{((formatDate(releaseDate)))}</Text>
           <Text style={styles.scoreText}>{voteAverage}</Text>
           <CustomRatingBar action={() => {}} defaultRating={voteAverage} litleStar/>
+          <FavMovieButton />
         </View>
     </View>
     </TouchableOpacity>
