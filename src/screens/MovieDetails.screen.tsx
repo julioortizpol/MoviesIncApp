@@ -45,7 +45,7 @@ const MovieDetails: React.FC<MoviesDetailsScreenNavigationProp> = ({ route, navi
                   () => {
                     return (
                       <View>
-                        <Image source={{ uri: getImageURL(movie.posterPath) }} style={{ height: 320, marginTop: 8 }} resizeMode='contain' />
+                        <Image source={{ uri: getImageURL(movie.posterPath) }} style={styles.posterImageStyle} resizeMode='contain' />
                         <Text style={styles.title}>{movie?.title}</Text>
                         <Text style={styles.textContent}>Fecha de estreno: {formatDate(movie.releaseDate)}</Text>
                         <Text style={styles.textContent}>Puntuacion: {movie.voteAverage.toFixed(1)} / 10</Text>
@@ -98,6 +98,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.clearDarkMoon
   },
+  posterImageStyle: 
+    { height: 300, marginTop: 8 },
   title: {
     ...theme.title,
     textAlign: 'center',

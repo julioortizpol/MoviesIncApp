@@ -17,7 +17,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress}) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={(onPress) ? false:true}>
     <View style={styles.movieCard}>
-        <Image source={{ uri: getImageURL(posterPath) }} style={{ width:180, height:300 }}  />
+        <Image source={{ uri: getImageURL(posterPath) }} style={styles.imageStyle}  />
         <View style={styles.movieDetailsContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subTitle}>Fecha de estreno: </Text>
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
   },
+  imageStyle: { width:180, height:300 },
   movieDetailsContainer: {
     backgroundColor: theme.clearDarkMoon,
     flex:1, 
